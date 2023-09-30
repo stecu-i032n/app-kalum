@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { CarrerasTecnicasModule } from '../carreras-tecnicas/carreras-tecnicas.module';
 
 
 
@@ -17,7 +18,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule, 
     RouterModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    CarrerasTecnicasModule
   ]
 })
 export class DashboardModule { }
