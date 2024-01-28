@@ -6,6 +6,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { FormCarreraTecnicaComponent } from '../../components/carreras-tecnicas/form-carrera-tecnica.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/modules/shared/services/auth.service';
+import { LoginComponent } from 'src/app/modules/login/components/login/login.component';
+import { FormRegisterAspiranteComponent } from '../../components/carreras-tecnicas/form-register-aspirante.component';
 
 @Component({
   selector: 'app-carreras-tecnicas',
@@ -25,8 +28,29 @@ export class CarrerasTecnicasComponent implements OnInit {
     this.getCarrerasTecnicas();
   }
 
-  constructor(private carreraTecnicaService: CarreraTecnicaService, public dialog: MatDialog) {
+  constructor(private carreraTecnicaService: CarreraTecnicaService, public dialog: MatDialog, public authService: AuthService) {
 
+  }
+
+  openEnrollmentCarreraTecnica(carreraId: string, nombre:string){
+    console.log(carreraId);
+    if(this.authService.isAuthenticated()){
+      //ROLE_USER = 0 | ROLE_CANDIDATE = EXP-2023001 | ROLE_STUDENT = 2023001
+      if(this.authService.usuario.identificationId == '0'){
+        const formRegisterAspirante = this.dialog.open(FormRegisterAspiranteComponent, {width: '450px'});
+      }
+    }else {
+      Swal.fire({
+        icon: 'info',
+        title: 'Asignación de Carrera Técnica',
+        html: 'Inicia sesión para realizar esta acción',
+        footer: 'Kalum v1.0.0'
+      }).then(result => {
+        if(result.isConfirmed){
+          this.dialog.open(LoginComponent, {width: '450x'});
+        }
+      })
+    }
   }
 
   getCarrerasTecnicas() {
@@ -56,7 +80,6 @@ export class CarrerasTecnicasComponent implements OnInit {
     });
     this.dataSource = new MatTableDataSource<CarreraTecnica>(dataCarreraTecnica);
     this.dataSource.paginator = this.paginador;
-
   }
 
   openFormCarreraTecnica() {

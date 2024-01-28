@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LoginComponent } from './components/login/login.component';
 import { MaterialModule } from '../shared/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ExamenesAdmisionComponent } from './components/examenes-admision/examenes-admision.component';
+import { FormRegisterComponent } from './components/login/form-register.component';
+
 
 
 @NgModule({
   declarations: [
-    ExamenesAdmisionComponent
+    LoginComponent,
+    FormRegisterComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -18,4 +22,4 @@ import { ExamenesAdmisionComponent } from './components/examenes-admision/examen
     ReactiveFormsModule
   ]
 })
-export class ExamenesAdmisionComponentModule { }
+export class LoginModule { }

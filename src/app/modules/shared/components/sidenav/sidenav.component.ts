@@ -1,5 +1,9 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from 'src/app/modules/login/components/login/login.component';
+import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sidenav',
@@ -17,12 +21,26 @@ export class SidenavComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
 
-  constructor(media: MediaMatcher){
+  constructor(media: MediaMatcher, public dialogLogin: MatDialog, public authSevice: AuthService){
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
   }
 
   
   ngOnInit(): void {
 
+  }
+
+  openFormLogin(){
+    const dialogLoginRef = this.dialogLogin.open(LoginComponent, {width: '450px'});
+  }
+
+  logout(): void {
+    let username = this.authSevice.usuario.username;
+    this.authSevice.logout();
+    Swal.fire({
+      title: 'Logout',
+      text: `${username}, has cerrado sesión con éxito`,
+      icon: 'success'
+    })
   }
 }

@@ -1,14 +1,35 @@
 <div class="dashboard-container" [class.is-mobile] = "mobileQuery.matches">
-    <mat-toolbar color="primary" class="dashboard-toolbar" (click)="snav.toggle()">
-        <button mat-icon-button><mat-icon>menu</mat-icon></button>
+    <mat-toolbar color="primary" class="dashboard-toolbar">
+        <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
         <h1 class="app-name">Kalum App</h1>
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
             <ul fxLayout="row" fxLayoutGap="20px">
                 <li>
-                    <button mat-icon-button><mat-icon>help_outiline</mat-icon></button>
+                    <button mat-icon-button (click)="snav.toggle()"><mat-icon>help_outiline</mat-icon></button>
                 </li>
-                <li>
-                    <button mat-icon-button><mat-icon>person_outline</mat-icon></button>
+                <li *ngIf="authSevice.isAuthenticated()">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" >
+                        <mat-icon> 
+                            person_outline
+                        </mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="logout()">
+                            <mat-icon>exit_to_app</mat-icon>
+                            Cerrar Sesión
+                        </button>
+                    </mat-menu>
+                </li>
+                <li *ngIf="!authSevice.isAuthenticated()">
+                    <button mat-icon-button [matMenuTriggerFor]="menuLogin">
+                        <mat-icon>person_outline</mat-icon>
+                    </button>
+                    <mat-menu #menuLogin="matMenu">
+                        <button mat-menu-item (click)="openFormLogin()">
+                            <mat-icon open_in_browser></mat-icon>
+                                Iniciar Sesión
+                        </button>
+                    </mat-menu>
                 </li>
             </ul>
         </div>
@@ -19,8 +40,8 @@
             <mat-nav-list>
                 <div class="profile-card">
                     <div class="header">
-                        <h2>Divaldo Tecú</h2>
-                        <h4>tecudivaldo@gmail.com</h4>
+                        <h2>{{!authSevice.isAuthenticated() ? authSevice.usuario.username : 'CAPACÍTATE'}}</h2>
+                        <h4>{{authSevice.isAuthenticated() ? authSevice.usuario.email: 'El trabajo bien hecho'}}</h4>
                     </div>
                     <mat-divider></mat-divider>
                     <a mat-list-item [routerLink]="nav.route"  *ngFor="let nav of menuNav" >
